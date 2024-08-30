@@ -1,0 +1,31 @@
+import {Prisma, {{name}} } from '@prisma/client'
+import {getAll, getById, create, deleteBy} from './{{name}}Repository'
+
+export async function get{{toUpperCase name}}sService(): Promise<{{toUpperCase name}}[] | null | string>  {
+    const {{toLowerCase name}}s = await getAll()
+    return {{toLowerCase name}}s
+}
+
+export async function get{{toUpperCase name}}Service(id: number): Promise<{{toUpperCase name}} | null | string> {
+    if (+id){
+        const {{toLowerCase name}} = await getById(+id)
+        return {{toLowerCase name}}
+     } else{
+        return ("No such id")
+    }
+}
+
+export async function create{{toUpperCase name}}Service(data: Prisma.{{name}}CreateInput): Promise<{{toUpperCase name}} | null | string> {
+    const {{toLowerCase name}} = await create(data)
+    return {{toLowerCase name}}
+}
+
+export async function delete{{toUpperCase name}}Service(id : number): Promise<{{toUpperCase name}} | null | string> {
+    if (+id){
+        const {{toLowerCase name}} = await deleteBy(+id)
+        return {{toLowerCase name}}
+    } else{
+        return ("No such id")
+    }
+}
+    

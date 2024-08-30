@@ -1,0 +1,84 @@
+import client from "../prisma/client"
+import {Prisma, {{toUpperCase name}} } from '@prisma/client'
+
+
+export async function getAll(): Promise<{{toUpperCase name}}[] | null| string> {
+    try{
+        const {{toLowerCase name}}s = await client.{{toLowerCase name}}.findMany()
+        if ({{toLowerCase name}}s.length == 0){
+            return ('{{toUpperCase name}}s not found')
+        }
+        return  {{toLowerCase name}}s
+    }catch(err){
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            return ('Failed to retrieve the user.');
+      } else {
+        return ('An unexpected error occurred.');
+      }
+    }
+}
+
+export async function getById(id: number): Promise<{{toUpperCase name}} | null | string> {
+    try{
+        const {{toLowerCase name}} = await client.{{toLowerCase name}}.findUnique({
+            where: {id: id}
+        })
+        if (!{{toLowerCase name}}){
+            return ('{{toUpperCase name}} not found')
+        }
+        return  {{toLowerCase name}}
+    }catch(err){
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            return ('Failed to retrieve the user.');
+      } else {
+        return ('An unexpected error occurred.');
+      }
+    }
+}
+
+export async function create(data: Prisma.{{name}}CreateInput): Promise<{{toUpperCase name}} | null | string> {
+    try{
+        const {{toLowerCase name}} = await client.{{toLowerCase name}}.create({
+            data: data
+        })
+        return  {{toLowerCase name}}
+    }catch(err){
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            if (err.code === 'P2002') {
+                // Unique constraint failed
+                return ('A user with this email already exists.');
+            } else{
+                return (err.code)
+            }
+        // Handle all other errors
+        } else if (err instanceof Prisma.PrismaClientValidationError) {
+            return ('Invalid data provided.');
+        } else {
+            return ('An unexpected error occurred.');
+        }
+    }
+}
+
+export async function deleteBy(id: number): Promise<{{toUpperCase name}} | null | string> {
+    try{
+        const {{toLowerCase name}} = await client.{{toLowerCase name}}.delete({
+            where: {
+                id: id
+            }
+        })
+        return  {{toLowerCase name}}
+    }catch(err){
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            if (err.code === 'P2025') {
+                // Record not found
+                return ('User not found, cannot delete.');
+            } else{
+                return (err.code)
+                }
+      } else {
+        return ('An unexpected error occurred.');
+      }
+        
+    }
+}
+

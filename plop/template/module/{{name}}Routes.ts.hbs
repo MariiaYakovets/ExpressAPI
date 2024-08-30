@@ -1,0 +1,11 @@
+import {Router} from "express"
+import { getAll{{toUpperCase name}}s, get{{toUpperCase name}}, create{{toUpperCase name}}, delete{{toUpperCase name}} } from './{{name}}Controller'
+const {{toLowerCase name}}Router = Router()
+
+{{toLowerCase name}}Router.get('/all', getAll{{toUpperCase name}}s)
+{{toLowerCase name}}Router.get('/:id', get{{toUpperCase name}})
+{{toLowerCase name}}Router.post('/', create{{toUpperCase name}})
+{{toLowerCase name}}Router.delete('/:id', delete{{toUpperCase name}})
+
+
+export = {{toLowerCase name}}Router

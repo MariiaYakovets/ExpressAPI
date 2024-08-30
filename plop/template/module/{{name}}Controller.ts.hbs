@@ -1,0 +1,31 @@
+import {Response, Request} from "express"
+import { get{{toUpperCase name}}sService, 
+    get{{toUpperCase name}}Service,
+    create{{toUpperCase name}}Service, 
+    delete{{toUpperCase name}}Service } from './{{name}}Service'
+
+
+export async function getAll{{toUpperCase name}}s(req: Request, res: Response) {
+    const {{toLowerCase name}}s = await get{{toUpperCase name}}sService()
+    res.json({{toLowerCase name}}s)
+
+}
+
+export async function get{{toUpperCase name}}(req: Request, res: Response) {
+    const {id} = req.params
+    const {{toLowerCase name}} = await get{{toUpperCase name}}Service(id? +id: 1)
+    res.json({{toLowerCase name}})
+}
+
+export async function create{{toUpperCase name}}(req: Request, res: Response) {
+    const {{toLowerCase name}}Data = req.body
+    const {{toLowerCase name}} = await create{{toUpperCase name}}Service({{toLowerCase name}}Data)
+    res.json({{toLowerCase name}})
+}
+
+export async function delete{{toUpperCase name}}(req: Request, res: Response) {
+    const {id}= req.params 
+    const {{toLowerCase name}} = await delete{{toUpperCase name}}Service(id? +id: 1)
+    res.json({{toLowerCase name}})
+
+}
