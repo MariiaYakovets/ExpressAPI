@@ -14,7 +14,9 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^5.19.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "cors": "^2.8.5",
     "express": "^4.19.2",
     "plop": "^4.0.1",
     "prisma": "^5.19.0",
