@@ -36,28 +36,28 @@ export async function getById(id: number): Promise<User | null | string> {
     }
 }
 
-export async function create(data: Prisma.UserCreateInput): Promise<User | null | string> {
-    try{
-        const user = await client.user.create({
-            data: data
-        })
-        return  user
-    }catch(err){
-        if (err instanceof Prisma.PrismaClientKnownRequestError) {
-            if (err.code === 'P2002') {
-                // Unique constraint failed
-                return ('A user with this email already exists.');
-            } else{
-                return (err.code)
-            }
-        // Handle all other errors
-        } else if (err instanceof Prisma.PrismaClientValidationError) {
-            return ('Invalid data provided.');
-        } else {
-            return ('An unexpected error occurred.');
-        }
-    }
-}
+// export async function create(data: Prisma.UserCreateInput): Promise<User | null | string> {
+//     try{
+//         const user = await client.user.create({
+//             data: data
+//         })
+//         return  user
+//     }catch(err){
+//         if (err instanceof Prisma.PrismaClientKnownRequestError) {
+//             if (err.code === 'P2002') {
+//                 // Unique constraint failed
+//                 return ('A user with this email already exists.');
+//             } else{
+//                 return (err.code)
+//             }
+//         // Handle all other errors
+//         } else if (err instanceof Prisma.PrismaClientValidationError) {
+//             return ('Invalid data provided.');
+//         } else {
+//             return ('An unexpected error occurred.');
+//         }
+//     }
+// }
 
 export async function deleteBy(id: number): Promise<User | null | string> {
     try{
@@ -82,3 +82,32 @@ export async function deleteBy(id: number): Promise<User | null | string> {
     }
 }
 
+export async function registerUser(data: Prisma.UserCreateInput): Promise<User | null| string> {
+    try{
+        const newUser = client.user.create({
+            data: data
+        })
+        return newUser
+    }catch(err){
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            return ('Failed to register the user.');
+      } else {
+        return ('An unexpected error occurred.');
+      }
+    }
+}
+
+export async function loginUser(email: string) : Promise<User | null| string> {
+    try{
+        const loggedUser = client.user.findUnique({
+            where: {email: email}
+        })
+        return loggedUser
+    }catch(err){
+        if (err instanceof Prisma.PrismaClientKnownRequestError) {
+            return ('Failed to find the user.');
+      } else {
+        return ('An unexpected error occurred.');
+      }
+    }
+}

@@ -26,7 +26,6 @@ model Post{
   body String?
   image String?
   datePublished String?
-  timePublished String?
   author User @relation(references: [id], fields: [authorId], onDelete: Cascade)
   authorId Int
   comments Comment[]
@@ -37,7 +36,6 @@ model Comment{
   title String
   body String?
   datePublished String?
-  timePublished String?
   post Post @relation(references: [id], fields: [postId], onDelete: Cascade)
   postId Int
   author User @relation(references: [id], fields: [authorId ], onDelete: Cascade)
