@@ -45,7 +45,7 @@ export async function userRegister(req: Request, res: Response) {
 export async function userLogin(req: Request, res: Response) {
     const { email, password } = req.body
     if (!email && !password){
-        return res.status(400).send('Unvalid credentioals')
+        return res.status(400).send('Invalid credentials')
     }
     const data = await userLoginService(email, password)
     res.json(data)

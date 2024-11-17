@@ -1,8 +1,8 @@
 import {Prisma, User } from '@prisma/client'
 import {getAll, getById, deleteBy, registerUser, loginUser} from './UserRepository'
 import {sign} from 'jsonwebtoken';
-import bcrypt from 'bcryptjs'
-import { JWT_SECRET } from '../tools/JWT/jwtSecret';
+import bcrypt, { compare, hash } from 'bcryptjs'
+import { JWT_SECRET } from '../config/config';
 
 
 
@@ -42,10 +42,8 @@ export async function registerUserService(data: Prisma.UserCreateInput): Promise
         return {message: 'No paswsword was provided'}
     }
 
-    console.log('11111meeee')
-
     // зашифровка введенного пароля и для дальнейшей отправки в бд
-    const hashedPassword = await bcrypt.hash(data.password, 10)
+    const hashedPassword = await hash(data.password, 10)
     data.password = hashedPassword
     const user = await registerUser(data)
     // проверка на наличие вернутого юзера
@@ -57,7 +55,6 @@ export async function registerUserService(data: Prisma.UserCreateInput): Promise
         return {message: user}
     }
     // создание токена для сессии
-    console.log('meeee')
     const token = sign({username: user.name}, JWT_SECRET, {expiresIn: '1h'})
     return {token: token, message: 'success'}
 }
@@ -71,7 +68,7 @@ export async function userLoginService(email: string, password: string): Promise
         return({message: loggedUser})
     }
     const hashedPassword = loggedUser.password
-    const isPasswordValid = await bcrypt.compare(password, hashedPassword)
+    const isPasswordValid = await compare(password, hashedPassword)
 
     if (!isPasswordValid){
         return ({ message: 'Invalid password'}) 

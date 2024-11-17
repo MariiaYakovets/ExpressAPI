@@ -4,8 +4,9 @@ import userRouter from "./User/UserRoutes";
 import postRouter from "./Post/PostRoutes";
 import commentRouter from "./Comment/CommentRoutes";
 import bodyParser from "body-parser";
+import * as dotenv from 'dotenv';
 
-
+dotenv.config();
 const app: Express = express();
 const corsOptions = {
     credentials: true,

@@ -1,40 +1,51 @@
-import {Prisma, Post } from '@prisma/client'
-import {getAll, getById, create, deleteBy, getPostsByUser} from './PostRepository'
+import { Prisma, Post } from "@prisma/client";
+import {
+	getAll,
+	getById,
+	create,
+	deleteBy,
+	getPostsByUser,
+} from "./PostRepository";
+import { failure, Result, success } from "../core/result";
 
-export async function getPostsService(): Promise<Post[] | null | string>  {
-    const posts = await getAll()
-    return posts
-}
-
-export async function getPostService(id: number): Promise<Post | null | string> {
-    if (+id){
-        const post = await getById(+id)
-        return post
-     } else{
-        return ("No such id")
-    }
+export async function getPostsService(): Promise<Result<Post[], string>> {
+	const posts = await getAll();
+	return posts;
 }
 
-export async function createPostService(data: Prisma.PostCreateInput): Promise<Post | null | string> {
-    const post = await create(data)
-    return post
+export async function getPostService(
+	id: number
+): Promise<Result<Post, string>> {
+	if (!id) {
+		return failure("Id was not provided");
+	}
+	const post = await getById(id);
+	return post;
 }
 
-export async function deletePostService(id : number): Promise<Post | null | string> {
-    if (+id){
-        const post = await deleteBy(+id)
-        return post
-    } else{
-        return ("No such id")
-    }
+export async function createPostService(
+	data: Prisma.PostCreateInput
+): Promise<Result<Post, string>> {
+	const post = await create(data);
+	return post;
 }
-    
-export async function getPostsByUserService(id : number): Promise<Post[] | null | string> {
-    if (+id){
-        const posts = await getPostsByUser(+id)
-        return posts
-    } else{
-        return ("No such id")
-    }
+
+export async function deletePostService(
+	id: number
+): Promise<Result<Post, string>> {
+	if (!id) {
+		return failure("Id was not provided");
+	}
+	const post = await deleteBy(id);
+	return post;
 }
-    
+
+export async function getPostsByUserService(
+	id: number
+): Promise<Result<Post[], string>> {
+	if (!id) {
+		return failure("Id was not provided");
+	}
+	const posts = await getPostsByUser(+id);
+	return posts;
+}
